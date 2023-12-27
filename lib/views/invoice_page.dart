@@ -5,6 +5,8 @@ import 'login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/drawer.dart';
+import 'dart:io';
+import 'package:pdf/widgets.dart' as pw;
 
 class InvoicePage extends StatefulWidget {
   const InvoicePage({Key? key}) : super(key: key);
@@ -54,7 +56,18 @@ class _InvoicePageState extends State<InvoicePage> {
   }
 
   Future _downloadPDF(String title, String fileUrl) async {
-    // define the download task (subset of parameters shown)
+    // final pdf = pw.Document();
+
+    // pdf.addPage(
+    //   pw.Page(
+    //     build: (pw.Context context) => pw.Center(
+    //       child: pw.Text('Hello World!'),n
+    //     ),
+    //   ),
+    // );
+
+    // final file = File('example.pdf');
+    // await file.writeAsBytes(await pdf.save());
   }
 
   void _loadMore() async {}

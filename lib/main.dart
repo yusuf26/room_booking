@@ -8,7 +8,7 @@ import 'views/home_page.dart';
 import 'views/user_page.dart';
 import 'dart:io';
 
-void main() {
+void main() async {
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
 
