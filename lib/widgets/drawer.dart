@@ -147,6 +147,16 @@ class _SideMenuState extends State<SideMenu> {
               style: TextStyle(fontSize: 20),
             ),
           ),
+        ListTile(
+          onTap: () {
+            Navigator.of(context).pushReplacementNamed('/report');
+          },
+          leading: const Icon(Icons.file_copy_outlined),
+          title: const Text(
+            'Report',
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
         SizedBox(height: 30),
         Expanded(
           child: Align(

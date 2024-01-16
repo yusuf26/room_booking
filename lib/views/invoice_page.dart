@@ -1,5 +1,6 @@
 import 'package:booking_room_app/model/Invoice.dart';
 import 'package:booking_room_app/network/InvoiceService.dart';
+import 'package:booking_room_app/widgets/dialogs.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'login_page.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,18 @@ class _InvoicePageState extends State<InvoicePage> {
   }
 
   Future _downloadPDF(String title, String fileUrl) async {
+
+    final GlobalKey<State> _keyLoader = GlobalKey<State>();
+    Dialogs.loading(context, _keyLoader, "Proses ...");
+    try {
+      await InvoiceService().downloadInvoice();
+      Navigator.of(context).pop();
+      Dialogs.popUp(context, "Successfully downloaded");
+    } catch(e) {
+      Navigator.of(context).pop();
+      Dialogs.popUp(context, e.toString());
+    }
+
     // final pdf = pw.Document();
 
     // pdf.addPage(
@@ -134,10 +147,14 @@ class _InvoicePageState extends State<InvoicePage> {
                                 trailing: IconButton(
                                   icon: Icon(FontAwesomeIcons.download,
                                       color: Colors.white, size: 22.0),
-                                  onPressed: () {
-                                    _downloadPDF(
-                                        _invoiceModel![index].invoice_number,
-                                        _invoiceModel![index].file_url);
+                                  onPressed: () async {
+                                    try {
+                                      _downloadPDF(
+                                          _invoiceModel![index].invoice_number,
+                                          _invoiceModel![index].file_url);
+                                    } catch(e) {
+                                      Dialogs.popUp(context, e.toString());
+                                    }
                                   },
                                 ),
                               )));

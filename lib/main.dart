@@ -1,5 +1,6 @@
 import 'package:booking_room_app/views/booking_page.dart';
 import 'package:booking_room_app/views/invoice_page.dart';
+import 'package:booking_room_app/views/report_page.dart';
 import 'package:booking_room_app/views/room_page.dart';
 import 'package:flutter/material.dart';
 import 'views/customer_page.dart';
@@ -21,7 +22,8 @@ void main() async {
       '/user': (BuildContext ctx) => const UserPage(),
       '/room': (BuildContext ctx) => const RoomPage(),
       '/booking': (BuildContext ctx) => const BookingPage(),
-      '/invoice': (BuildContext ctx) => const InvoicePage()
+      '/invoice': (BuildContext ctx) => const InvoicePage(),
+      '/report' : (BuildContext ctx) => const ReportPage()
     },
   ));
 }
