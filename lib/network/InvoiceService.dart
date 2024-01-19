@@ -1,4 +1,8 @@
 import 'dart:developer';
+import 'dart:io';
+
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../model/Invoice.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +11,9 @@ import '../constant.dart';
 import 'dart:convert';
 
 class InvoiceService {
+  
+  final directory = "/storage/emulated/0/Download/BookingRoom";
+  
   Future<List<Invoice>?> getInvoice() async {
     try {
       SharedPreferences pref = await SharedPreferences.getInstance();
@@ -73,6 +80,49 @@ class InvoiceService {
       }
     } catch (e) {
       log(e.toString());
+    }
+  }
+
+  Future<dynamic> downloadInvoice() async {
+
+    if(!await _requestPermissions()) {
+      throw Exception("Please allow permission storage");
+      return;
+    }
+    var folderPath;
+    try {
+      if(!Directory(directory).existsSync()) {
+        Directory(directory).createSync(recursive: true);
+      }
+    } catch(e) {
+      throw Exception(e.toString());
+    }
+    //ENDPOINT TO DOWNLOAD FILE
+    final url = 'https://www.africau.edu/images/default/sample.pdf';
+    //FILENAME
+    final filename = 'sample.pdf';
+    final response = await http.get(Uri.parse(url));
+    final filePath = '$directory/$filename';
+
+    File file = File(filePath);
+    await file.writeAsBytes(response.bodyBytes);
+
+    print('File downloaded to: $filePath');
+
+    return response;
+  }
+
+  Future<bool> _requestPermissions() async {
+    // Check and request storage permissions
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage, // for both read and write permissions
+    ].request();
+
+    // Handle the result
+    if (statuses[Permission.storage] == PermissionStatus.granted) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
